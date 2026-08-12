@@ -1,7 +1,8 @@
 import os
 import json
+from datetime import datetime
+from typing import List, Dict, Any, Optional, Union
 import numpy as np
-from typing import List, Dict
 
 # ── Storage paths ────────────────────────────────────────────────────────────
 STORE_DIR = "./vector_store"
@@ -34,28 +35,44 @@ def _save_store():
 # ── Public API ───────────────────────────────────────────────────────────────
 
 def store_chunks(
-    chunks: List[str],
+    chunks: Union[List[Dict[str, Any]], List[str]],
     embeddings: List[List[float]],
     doc_id: str,
+    filename: Optional[str] = None,
+    upload_time: Optional[Union[datetime, str]] = None,
 ) -> None:
     """
-    Store text chunks and their embedding vectors.
+    Store text chunks, their embedding vectors, and metadata (page numbers, doc_id, filename, timestamp).
 
     Data is kept in two parallel structures:
-    - _chunks: list of dicts with text + metadata
+    - _chunks: list of dicts with text + metadata (doc_id, chunk_index, page_num, filename, upload_time)
     - _embeddings: numpy array of shape (N, embedding_dim)
 
     Why parallel? So we can do fast numpy math on the embeddings
-    while keeping the original text accessible by index.
+    while keeping the original text and metadata accessible by index.
     """
     global _chunks, _embeddings
 
     new_embeddings = np.array(embeddings, dtype=np.float32)
 
     for i, (chunk, emb) in enumerate(zip(chunks, embeddings)):
+        if isinstance(chunk, dict):
+            text = chunk.get("text", "")
+            page_num = chunk.get("page_num", chunk.get("page", 1))
+        else:
+            text = str(chunk)
+            page_num = 1
+
+        meta: Dict[str, Any] = {
+            "doc_id": doc_id,
+            "chunk_index": i,
+            "page_num": page_num,
+            "filename" : filename or "unknown",
+            "upload_time" : upload_time.isoformat() if isinstance(upload_time, datetime) else str(upload_time or ""),
+        }
         _chunks.append({
-            "text": chunk,
-            "metadata": {"doc_id": doc_id, "chunk_index": i}
+            "text": text,
+            "metadata": meta,
         })
 
     if _embeddings.shape[0] == 0:
@@ -67,7 +84,7 @@ def store_chunks(
     print(f"[VectorStore] Stored {len(chunks)} chunks for doc_id={doc_id}. Total: {len(_chunks)}")
 
 
-def retrieve_top_k(query_embedding: List[float], top_k: int = 5) -> List[Dict]:
+def retrieve_top_k(query_embedding: List[float], top_k: int = 5) -> List[Dict[str, Any]]:
     """
     Find the top-k most similar chunks using cosine similarity.
 

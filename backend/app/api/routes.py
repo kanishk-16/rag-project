@@ -1,6 +1,7 @@
 import os
 import uuid
 import shutil
+from datetime import datetime, timezone
 
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from pydantic import BaseModel
@@ -29,6 +30,8 @@ class QueryRequest(BaseModel):
 class SourceChunk(BaseModel):
     doc_id: str
     chunk_index: int
+    page_num: int | None = None
+    filename: str | None = None
     score: float
 
 
@@ -48,7 +51,7 @@ async def health_check():
 @router.post("/upload")
 async def upload_document(file: UploadFile = File(...)):
     """
-    Upload a PDF → extract text → chunk → embed → store in ChromaDB.
+    Upload a PDF → extract text → chunk → embed → store in VectorStore.
 
     Returns the doc_id (keep this — you'll use it in Phase 2 to filter
     queries by document) and the number of chunks created.
@@ -56,7 +59,7 @@ async def upload_document(file: UploadFile = File(...)):
     if not file.filename.endswith(".pdf"):
         raise HTTPException(
             status_code=400,
-            detail="Only PDF files are supported in Phase 1. DOCX/TXT support comes in Phase 3."
+            detail="Only PDF files are supported for now. DOCX/TXT support coming soon."
         )
 
     # 1. Save to disk
@@ -65,18 +68,25 @@ async def upload_document(file: UploadFile = File(...)):
     with open(file_path, "wb") as f:
         shutil.copyfileobj(file.file, f)
 
-    # 2. Extract text
-    text = load_pdf(file_path)
-    if not text.strip():
+    # 2. Extract pages with page numbers
+    pages = load_pdf(file_path)
+    if not pages:
         raise HTTPException(
             status_code=422,
             detail="Could not extract text from PDF. It may be a scanned/image-only PDF."
         )
 
     # 3. Chunk → Embed → Store (the core RAG ingestion pipeline)
-    chunks = chunk_text(text, chunk_size=settings.chunk_size, overlap=settings.chunk_overlap)
-    embeddings = embed_texts(chunks)
-    store_chunks(chunks, embeddings, doc_id)
+    chunks = chunk_text(pages, chunk_size=settings.chunk_size, overlap=settings.chunk_overlap)
+    chunk_texts = [c["text"] for c in chunks]
+    embeddings = embed_texts(chunk_texts)
+    store_chunks(
+        chunks=chunks,
+        embeddings=embeddings,
+        doc_id=doc_id,
+        filename=file.filename,
+        upload_time=datetime.now(timezone.utc),
+    )
 
     return {
         "doc_id": doc_id,
@@ -116,6 +126,8 @@ async def query_documents(request: QueryRequest):
         SourceChunk(
             doc_id=chunk["metadata"]["doc_id"],
             chunk_index=chunk["metadata"]["chunk_index"],
+            page_num=chunk["metadata"].get("page_num"),
+            filename=chunk["metadata"].get("filename"),
             score=chunk["score"],
         )
         for chunk in relevant_chunks

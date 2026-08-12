@@ -1,9 +1,14 @@
-from typing import List
+from typing import List, Dict, Any, Union
 
 
-def chunk_text(text: str, chunk_size: int = 500, overlap: int = 50) -> List[str]:
+def chunk_text(
+    pages: Union[List[Dict[str, Any]], str],
+    chunk_size: int = 500,
+    overlap: int = 50,
+) -> List[Dict[str, Any]]:
     """
-    Split text into overlapping chunks using a sliding window.
+    Split document pages into overlapping chunks using a sliding window,
+    tracking the source page number for each chunk.
 
     Why word-level (not character-level)?
     Character splits can cut a word in half mid-token, which confuses embedding models.
@@ -14,24 +19,42 @@ def chunk_text(text: str, chunk_size: int = 500, overlap: int = 50) -> List[str]
     The tail of chunk N repeats at the head of chunk N+1, so meaning is preserved.
 
     Example (chunk_size=5, overlap=2):
-        Input:  [A B C D E F G H]
-        Chunk1: [A B C D E]
-        Chunk2: [D E F G H]   <- D E repeated from chunk1
+        Input Page 1: [A B C D E F G H]
+        Chunk 1: {"text": "A B C D E", "page_num": 1}
+        Chunk 2: {"text": "D E F G H", "page_num": 1}   <- D E repeated from chunk 1
 
-    In Phase 2 you'll experiment with different chunk_size/overlap values
-    and measure their effect on Recall@K using your eval set.
+    Returns:
+        A list of dicts containing chunk text and page number:
+        [
+            {"text": "chunk content...", "page_num": 1},
+            {"text": "chunk content...", "page_num": 1},
+            {"text": "chunk content...", "page_num": 2},
+            ...
+        ]
     """
-    words = text.split()
-    chunks = []
-    start = 0
+    if isinstance(pages, str):
+        pages = [{"text": pages, "page_num": 1}]
 
-    while start < len(words):
-        end = start + chunk_size
-        chunk = " ".join(words[start:end])
-        chunks.append(chunk)
+    chunks: List[Dict[str, Any]] = []
+    step = max(1, chunk_size - overlap)
 
-        # Move forward by (chunk_size - overlap) so the next chunk
-        # starts `overlap` words before where this one ended
-        start += chunk_size - overlap
+    for page_dict in pages:
+        text = page_dict.get("text", "")
+        page_num = page_dict.get("page_num", 1)
 
-    return [c for c in chunks if c.strip()]  # drop any accidental empty chunks
+        words = text.split()
+        if not words:
+            continue
+
+        start = 0
+        while start < len(words):
+            end = start + chunk_size
+            chunk_content = " ".join(words[start:end])
+            if chunk_content.strip():
+                chunks.append({
+                    "text": chunk_content,
+                    "page_num": page_num,
+                })
+            start += step
+
+    return chunks

@@ -1,24 +1,27 @@
+from typing import List, Dict, Union
 import fitz  # PyMuPDF — faster and more accurate than pdfplumber for plain text
 
 
-def load_pdf(file_path: str) -> str:
+def load_pdf(file_path: str) -> List[Dict[str, Union[int, str]]]:
     """
-    Extract raw text from every page of a PDF.
+    Extract raw text from every page of a PDF alongside page numbers.
 
     Why PyMuPDF (fitz)?
     - Handles most PDF encodings reliably
     - Very fast — processes a 100-page doc in under a second
-    - Returns clean text per page so we can attach page numbers later (Phase 2)
+    - Returns clean text per page with 1-based page numbers for citation tracking.
 
-    Returns the full document text as a single string.
+    Returns:
+        A list of dicts with page number (1-indexed) and extracted text:
+        [{"page": 1, "text": "..."}, {"page": 2, "text": "..."}]
     """
     doc = fitz.open(file_path)
-    pages_text = []
+    pages = []
 
-    for page_num, page in enumerate(doc):
+    for page_num, page in enumerate(doc, start=1):
         text = page.get_text()
         if text.strip():  # skip blank/image-only pages
-            pages_text.append(text)
+            pages.append({"page_num": page_num, "text": text})
 
     doc.close()
-    return "\n".join(pages_text)
+    return pages
