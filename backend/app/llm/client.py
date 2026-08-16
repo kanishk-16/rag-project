@@ -24,6 +24,7 @@ Rules:
 - If the answer is not present in the context, respond with: "I couldn't find the answer in the provided documents."
 - Be concise and factual. Do not speculate or add information from outside the context.
 - If the context is relevant but incomplete, say what you found and note the limitation.
+- Do not use Markdown formatting. No bold, no bullet points, plain text only.
 
 Answer:"""
 
