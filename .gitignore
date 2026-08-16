@@ -1,2 +1,11 @@
 .env
 backend/.env
+
+# Uploaded documents — never commit user data
+backend/uploads/
+uploads/
+
+# Vector store — generated data, not source code
+backend/vector_store/
+vector_store/
+
