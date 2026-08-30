@@ -20,6 +20,11 @@ A production-oriented Retrieval-Augmented Generation system built from scratch �
 
 ## Architecture
 
+![End-to-end RAG System Architecture](./rag_system_architecture.png)
+
+<details>
+<summary><b>Click to expand ASCII flow diagram</b></summary>
+
 ```
 POST /upload
     │
@@ -46,6 +51,7 @@ retrieve_top_k() → Normalize → dot product → argsort → top-5 chunks
     ▼
 Gemini 2.5 Flash → Grounded prompt → answer + citations
 ```
+</details>
 
 ### Tech Stack
 
