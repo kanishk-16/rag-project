@@ -20,5 +20,5 @@ COPY backend/app ./app
 # Expose port 8000
 EXPOSE 8000
 
-# Command to run application
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Command to run application (dynamically binds to PORT if provided by Railway, defaults to 8000)
+CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}
