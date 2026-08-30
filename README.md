@@ -96,11 +96,12 @@ Built a 30-question evaluation set from a real document to measure retrieval qua
 
 ### Baseline Results (Phase 2 — semantic retrieval only)
 
-| Metric | Score |
-|---|---|
-| Mean Context Recall | 0.68 |
-| Mean Top-1 Similarity | 0.52 |
-| Answer Correctness | 40% (4/10 questions) |
+| Metric              | Score  |
+|---------------------|--------|
+| Total Questions     | 30     |
+| Mean Context Recall | 0.6750 |
+| Mean Top-1 Similarity | 0.4839 |
+| Hit Rate@5          | 0.9667 |
 
 ### What the metrics mean
 

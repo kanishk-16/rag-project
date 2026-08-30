@@ -9,3 +9,8 @@ uploads/
 backend/vector_store/
 vector_store/
 
+# Python & Environment
+__pycache__/
+*.pyc
+venv/
+.pytest_cache/
