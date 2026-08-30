@@ -57,7 +57,9 @@ Gemini 2.5 Flash → Grounded prompt → answer + citations
 | Vector Search | Numpy (cosine similarity) |
 | LLM | Google Gemini 2.5 Flash |
 | Config | Pydantic Settings + python-dotenv |
-| Deployment | Docker (coming soon) |
+| Deployment | Docker + Docker Compose (Live on Railway) |
+
+**🚀 Live Demo:** [https://rag-project-production-413e.up.railway.app/docs](https://rag-project-production-413e.up.railway.app/docs)
 
 ---
 
@@ -228,12 +230,16 @@ ChromaDB requires C++ compilation on Windows which creates environment friction.
 - Vector store is in-memory with disk persistence — not suitable for large document collections
 - No authentication — single-user only
 
-**Planned improvements:**
-- Hybrid search (BM25 + semantic) + cross-encoder reranking → Phase 6
-- PostgreSQL for document and conversation persistence → Phase 7
-- Authentication and multi-user support → Phase 8
-- Docker Compose deployment → Phase 9
-- DOCX and TXT support → Phase 10
+**Achieved so far:**
+- ✅ **Phase 1: Core RAG MVP Pipeline** (PyMuPDF PDF loading, 500-word sliding window chunker with 50-word overlap, sentence-transformers `all-MiniLM-L6-v2` embeddings, Numpy vector store).
+- ✅ **Phase 2 & 3: Citation & Grounded Refusal** (Page-level citations, Gemini 2.5 Flash grounded prompt template, explicit refusal when context is missing).
+- ✅ **Phase 4 & Deployment: Containerization & Cloud Host** (Custom `Dockerfile`, `docker-compose.yml`, persistent volume storage, live Railway cloud deployment).
+- ✅ **Phase 10: Quantitative Evaluation Suite** (30-question ground-truth evaluation set, `eval_runner.py` baseline benchmark: Recall@5 = 0.6750, Hit Rate@5 = 96.67%).
+
+**Next Up (Roadmap Todo):**
+- 🔄 **Phase 6 (Highest Leverage):** Hybrid Search (BM25 + Semantic Vectors) + Cross-Encoder Reranking (`ms-marco-MiniLM-L-6-v2`) to push Context Recall > 0.80.
+- 🔄 **Phase 5:** JWT Authentication & Document / User Metadata Filtering.
+- 🔄 **Phase 8:** Real-time token streaming (`StreamingResponse`).
 
 ---
 
