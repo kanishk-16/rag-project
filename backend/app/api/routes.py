@@ -111,7 +111,7 @@ async def query_documents(request: QueryRequest):
     query_embedding = embed_query(request.question)
 
     # 2. Retrieve top-k relevant chunks
-    relevant_chunks = retrieve_top_k(query_embedding, top_k=request.top_k)
+    relevant_chunks = retrieve_top_k(query_embedding, top_k=request.top_k, query_text=request.question)
     if not relevant_chunks:
         raise HTTPException(
             status_code=404,

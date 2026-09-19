@@ -1,0 +1,465 @@
+{
+  "run_date": "2026-09-19T10:06:13.785481",
+  "mode": "retrieval-only",
+  "total_questions": 30,
+  "top_k": 5,
+  "metrics": {
+    "mean_context_recall": 0.7259,
+    "mean_top1_similarity": 0.9669,
+    "hit_rate": 1.0,
+    "hits": 30,
+    "total": 30
+  },
+  "results": [
+    {
+      "id": "q1",
+      "question": "Why does the report describe Operating Systems as a multiplier rather than the main gatekeeper for general SWE hiring in India?",
+      "expected_answer": "DSA usually determines whether a candidate clears online assessments, live coding, and early technical filters. OS becomes valuable later by improving reasoning about production behavior, concurrency, machine coding, system design, and project decisions.",
+      "context_recall": 0.7037,
+      "top1_score": 4.6686,
+      "hit": true,
+      "retrieved_pages": [
+        1,
+        6,
+        17,
+        2,
+        4
+      ]
+    },
+    {
+      "id": "q2",
+      "question": "How does the recommended subject ranking for a general SWE candidate change when targeting mid-level backend or platform roles?",
+      "expected_answer": "For general SWE roles, DSA leads, followed by OOP/OOD, DBMS and SQL, OS, networking, and system design. For mid-level backend or platform roles, system design and distributed systems move near the top, while OS, networking, and concurrency also become substantially more important.",
+      "context_recall": 0.7692,
+      "top1_score": 3.8364,
+      "hit": true,
+      "retrieved_pages": [
+        1,
+        6,
+        4,
+        11,
+        16
+      ]
+    },
+    {
+      "id": "q3",
+      "question": "What is the main difference between core-CS evaluation in Indian IT-services fresher hiring and global big-tech early-career hiring?",
+      "expected_answer": "Indian IT-services fresher hiring is usually dominated by aptitude, coding or pseudocode, communication, and basic technical questions. Global big-tech early-career hiring places much greater weight on DSA-intensive coding rounds, followed by technical design, project depth, and role-dependent systems knowledge.",
+      "context_recall": 0.6897,
+      "top1_score": 3.2119,
+      "hit": true,
+      "retrieved_pages": [
+        1,
+        4,
+        2,
+        3,
+        5
+      ]
+    },
+    {
+      "id": "q4",
+      "question": "According to the report's estimated stage weights, what is the largest success factor for TCS, Infosys, and Wipro-style fresher hiring?",
+      "expected_answer": "Online assessments and coding rounds are the largest factor at an estimated 50 percent, followed by behavioral or HR evaluation at 25 percent, technical deep dives at 15 percent, and resume screening at 10 percent.",
+      "context_recall": 0.7273,
+      "top1_score": -0.7463,
+      "hit": true,
+      "retrieved_pages": [
+        1,
+        2,
+        4,
+        3,
+        9
+      ]
+    },
+    {
+      "id": "q5",
+      "question": "How are the estimated hiring-stage weights distributed for mid-level backend or platform roles at global big-tech companies in India?",
+      "expected_answer": "Technical design or deep-dive rounds receive 45 percent, online assessment or coding rounds 25 percent, behavioral or hiring-manager rounds 20 percent, and resume screening 10 percent.",
+      "context_recall": 0.7222,
+      "top1_score": 3.1558,
+      "hit": true,
+      "retrieved_pages": [
+        1,
+        4,
+        5,
+        3,
+        16
+      ]
+    },
+    {
+      "id": "q6",
+      "question": "Why does the report avoid giving precise company-specific scores for Ola and several smaller startups?",
+      "expected_answer": "Recent accessible public evidence about their interview processes was too limited. The report therefore groups them into an Indian product and startup cluster instead of presenting unsupported company-specific precision.",
+      "context_recall": 0.7727,
+      "top1_score": -4.5722,
+      "hit": true,
+      "retrieved_pages": [
+        5,
+        11,
+        2,
+        1,
+        16
+      ]
+    },
+    {
+      "id": "q7",
+      "question": "Which signals does the report say matter more than individual core-CS subjects during resume screening?",
+      "expected_answer": "Internships, recognizable organizations, project depth, open-source contributions, competitive-programming or problem-solving profiles, relevant technology-stack fit, and the visibility and quality of prior work matter more.",
+      "context_recall": 0.6842,
+      "top1_score": 2.1449,
+      "hit": true,
+      "retrieved_pages": [
+        3,
+        2,
+        1,
+        4,
+        6
+      ]
+    },
+    {
+      "id": "q8",
+      "question": "For Indian product companies and startups, which subject has the highest importance in machine-coding or design rounds, and what score does it receive?",
+      "expected_answer": "OOP and OOD have the highest estimated importance, receiving a score of 5 out of 5 in machine-coding or design rounds.",
+      "context_recall": 0.6923,
+      "top1_score": 5.9234,
+      "hit": true,
+      "retrieved_pages": [
+        5,
+        4,
+        1,
+        3,
+        10
+      ]
+    },
+    {
+      "id": "q9",
+      "question": "Why do OS, networking, and concurrency become more relevant in Flipkart, Swiggy, startup, and backend-platform interviews than their explicit question frequency might suggest?",
+      "expected_answer": "Their concepts appear indirectly in discussions of queues, caches, latency, retries, locking, thread safety, resource contention, distributed systems, and machine-coding design.",
+      "context_recall": 0.7778,
+      "top1_score": 4.7033,
+      "hit": true,
+      "retrieved_pages": [
+        6,
+        1,
+        5,
+        3,
+        10
+      ]
+    },
+    {
+      "id": "q10",
+      "question": "Under what circumstances can compilers move from the lowest-priority subject to a critical hiring topic?",
+      "expected_answer": "Compilers become critical for specialized compiler, kernel, infrastructure, networking, systems, or low-level transformation roles, even though they are generally irrelevant to mainstream SWE interviews.",
+      "context_recall": 0.65,
+      "top1_score": -4.3479,
+      "hit": true,
+      "retrieved_pages": [
+        6,
+        8,
+        5,
+        1,
+        3
+      ]
+    },
+    {
+      "id": "q11",
+      "question": "What three interview situations make OS knowledge especially valuable according to the report?",
+      "expected_answer": "OS is especially valuable when reasoning about real production behavior, when designing thread-safe and resource-aware solutions in machine-coding or OOD rounds, and when defending technical choices during project deep dives or hiring-manager interviews.",
+      "context_recall": 0.5652,
+      "top1_score": 0.515,
+      "hit": true,
+      "retrieved_pages": [
+        3,
+        6,
+        7,
+        2,
+        9
+      ]
+    },
+    {
+      "id": "q12",
+      "question": "How can OS knowledge help explain a service that slows down under load?",
+      "expected_answer": "It allows the candidate to reason about thread contention, context switching, scheduling, locking, memory pressure, page faults, resource ownership, and other factors that can reduce throughput or increase latency.",
+      "context_recall": 0.5909,
+      "top1_score": 2.8475,
+      "hit": true,
+      "retrieved_pages": [
+        7,
+        6,
+        12,
+        8,
+        2
+      ]
+    },
+    {
+      "id": "q13",
+      "question": "What level of OS mastery does the report recommend for a student with limited preparation time?",
+      "expected_answer": "The report recommends interview-depth knowledge rather than full academic depth: understand the important concepts, apply them to code and architecture, and discuss trade-offs and practical examples confidently.",
+      "context_recall": 0.8,
+      "top1_score": -5.7377,
+      "hit": true,
+      "retrieved_pages": [
+        2,
+        7,
+        14,
+        15,
+        12
+      ]
+    },
+    {
+      "id": "q14",
+      "question": "Which OS topics form the report's fastest interview-resilient coverage set?",
+      "expected_answer": "Processes versus threads, context switching, scheduling basics, synchronization primitives, deadlocks and starvation, virtual memory, paging, TLBs, page faults, stack versus heap, fragmentation, file-system durability, virtual machines versus containers, and practical concurrency bugs.",
+      "context_recall": 0.4815,
+      "top1_score": 2.6092,
+      "hit": true,
+      "retrieved_pages": [
+        9,
+        2,
+        6,
+        3,
+        8
+      ]
+    },
+    {
+      "id": "q15",
+      "question": "What kinds of questions connect file systems and durability to system-design interviews?",
+      "expected_answer": "Questions about inodes, journaling, fsync, append-based logging, crash consistency, and why a file write may not become durable immediately connect file-system knowledge to storage-heavy system design.",
+      "context_recall": 0.8095,
+      "top1_score": 1.2173,
+      "hit": true,
+      "retrieved_pages": [
+        7,
+        8,
+        9,
+        2,
+        6
+      ]
+    },
+    {
+      "id": "q16",
+      "question": "What concepts should a candidate compare when answering questions about processes and threads?",
+      "expected_answer": "The candidate should compare isolation, memory sharing, creation and context-switch costs, communication mechanisms, failure impact, and the situations in which processes or threads are more appropriate.",
+      "context_recall": 0.4706,
+      "top1_score": 0.1626,
+      "hit": true,
+      "retrieved_pages": [
+        7,
+        11,
+        9,
+        8,
+        2
+      ]
+    },
+    {
+      "id": "q17",
+      "question": "Which DBMS topics does the report identify as most relevant to technical rounds, project discussions, and design interviews?",
+      "expected_answer": "SQL joins, normalization, ACID properties, indexing, transactions, and isolation levels are the most relevant DBMS topics.",
+      "context_recall": 0.8462,
+      "top1_score": 3.8695,
+      "hit": true,
+      "retrieved_pages": [
+        3,
+        2,
+        6,
+        8,
+        9
+      ]
+    },
+    {
+      "id": "q18",
+      "question": "Which networking concepts are recommended for interview-depth preparation?",
+      "expected_answer": "TCP, HTTP, DNS, proxies, load balancing, caching, retries, timeouts, and related availability or distributed-system trade-offs are recommended.",
+      "context_recall": 0.5714,
+      "top1_score": 1.7076,
+      "hit": true,
+      "retrieved_pages": [
+        14,
+        15,
+        12,
+        13,
+        2
+      ]
+    },
+    {
+      "id": "q19",
+      "question": "Why are parking lot, Splitwise, elevator, LRU cache, and rate limiter useful OOD practice problems?",
+      "expected_answer": "They force candidates to combine class modeling, state management, data structures, extensibility, design patterns, and thread-safety reasoning instead of memorizing definitions passively.",
+      "context_recall": 0.7895,
+      "top1_score": 4.4204,
+      "hit": true,
+      "retrieved_pages": [
+        11,
+        16,
+        7,
+        10,
+        6
+      ]
+    },
+    {
+      "id": "q20",
+      "question": "What workload does the report recommend for each of its 4-week, 8-week, and 12-week preparation plans?",
+      "expected_answer": "The 4-week plan requires about 3 to 4 hours per weekday and 5 to 6 hours per weekend day. The 8-week plan requires about 2 to 3 hours per weekday and 4 to 5 hours per weekend day. The 12-week plan requires about 1.5 to 2.5 hours per day consistently.",
+      "context_recall": 0.8421,
+      "top1_score": -2.9188,
+      "hit": true,
+      "retrieved_pages": [
+        10,
+        12,
+        9,
+        2,
+        11
+      ]
+    },
+    {
+      "id": "q21",
+      "question": "Why is the 8-week plan presented as the best default for most CS students?",
+      "expected_answer": "It offers the best balance between speed and retention while providing enough time for structured DSA practice and credible coverage of OS, DBMS, networking, OOD, design, and mock interviews.",
+      "context_recall": 0.8571,
+      "top1_score": -0.3216,
+      "hit": true,
+      "retrieved_pages": [
+        9,
+        2,
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "id": "q22",
+      "question": "What should a candidate accomplish during the first week of the 4-week crash plan?",
+      "expected_answer": "The candidate should focus on arrays, strings, hashing, sliding window, two pointers, stacks, queues, and binary search while spending 30 to 45 minutes daily on SQL and DBMS basics such as joins, grouping, normalization, and ACID.",
+      "context_recall": 0.8846,
+      "top1_score": 2.6252,
+      "hit": true,
+      "retrieved_pages": [
+        10,
+        9,
+        11,
+        2,
+        12
+      ]
+    },
+    {
+      "id": "q23",
+      "question": "What is added during week two of the 4-week crash plan, and why is a mock interview scheduled then?",
+      "expected_answer": "Week two adds trees, heaps, graphs, BFS, DFS, basic dynamic programming, processes and threads, scheduling, synchronization, deadlocks, and virtual memory. A mock interview is scheduled to begin converting knowledge from practice mode into verbal interview performance.",
+      "context_recall": 0.75,
+      "top1_score": 4.508,
+      "hit": true,
+      "retrieved_pages": [
+        10,
+        9,
+        12,
+        2,
+        11
+      ]
+    },
+    {
+      "id": "q24",
+      "question": "What interview simulations are required during week four of the crash plan?",
+      "expected_answer": "The plan calls for two coding rounds, one OOD or machine-coding discussion, one system-design-lite round, and one behavioral or project deep dive, along with a line-by-line resume review.",
+      "context_recall": 0.7368,
+      "top1_score": 5.0753,
+      "hit": true,
+      "retrieved_pages": [
+        10,
+        9,
+        2,
+        12,
+        11
+      ]
+    },
+    {
+      "id": "q25",
+      "question": "What quantitative practice targets are included in the minimal 4-week and 8-week checklists?",
+      "expected_answer": "The 4-week checklist targets 60 to 80 quality DSA problems, two machine-coding or OOD problems, two system-design-lite prompts, and five STAR stories. The 8-week checklist targets 90 to 120 structured DSA problems, three to four machine-coding problems, four to six system-design-lite prompts, and four mock technical interviews.",
+      "context_recall": 0.8846,
+      "top1_score": 0.5344,
+      "hit": true,
+      "retrieved_pages": [
+        12,
+        10,
+        11,
+        9,
+        2
+      ]
+    },
+    {
+      "id": "q26",
+      "question": "How should week eight of the balanced plan differ for service companies, big tech, and product startups?",
+      "expected_answer": "For TCS, Infosys, and Wipro, focus on aptitude, pseudocode, communication, and core technical basics. For Amazon, Microsoft, and Google, focus on coding and project deep dives with design when applicable. For Flipkart, Swiggy, and startups, combine coding with machine coding, OOD, and system design.",
+      "context_recall": 0.7143,
+      "top1_score": 0.6499,
+      "hit": true,
+      "retrieved_pages": [
+        11,
+        10,
+        9,
+        5,
+        12
+      ]
+    },
+    {
+      "id": "q27",
+      "question": "Who should use the 12-week extension, and what should the final four weeks emphasize?",
+      "expected_answer": "Candidates targeting mid-level Amazon, Google, or Microsoft roles, backend or platform positions, or higher-signal product companies should use it. The extension should emphasize harder graphs and DP, distributed systems, system design, concurrency, production debugging stories, and a visible systems-oriented project or open-source contribution.",
+      "context_recall": 0.8235,
+      "top1_score": -5.9979,
+      "hit": true,
+      "retrieved_pages": [
+        10,
+        12,
+        9,
+        2,
+        11
+      ]
+    },
+    {
+      "id": "q28",
+      "question": "What is the recommended minimal resource stack for DSA, OS, DBMS, networking, and OOD?",
+      "expected_answer": "Use NeetCode 150 or selected Striver A2Z sections plus CSES for DSA, selected OSTEP chapters for OS, SQLBolt followed by selected CMU 15-445 lectures for DBMS, selected Stanford CS144 material for networking, and Refactoring.Guru plus handwritten designs for OOD.",
+      "context_recall": 0.8889,
+      "top1_score": 3.4221,
+      "hit": true,
+      "retrieved_pages": [
+        9,
+        15,
+        10,
+        2,
+        12
+      ]
+    },
+    {
+      "id": "q29",
+      "question": "Why does the report recommend structured DSA roadmaps before company-tagged problem lists?",
+      "expected_answer": "Structured roadmaps build reusable problem-solving patterns and topic coverage first. Company-specific lists are more useful later for adding recent interview nuance, timing pressure, and targeted preparation.",
+      "context_recall": 0.5714,
+      "top1_score": -0.023,
+      "hit": true,
+      "retrieved_pages": [
+        12,
+        16,
+        13,
+        11,
+        3
+      ]
+    },
+    {
+      "id": "q30",
+      "question": "What assumptions limit the scope of the report's recommendations?",
+      "expected_answer": "The report assumes a candidate with basic CS knowledge who is preparing for India-based general SWE or SDE hiring as of July 2026, not primarily targeting kernel, compiler, networking-specialist, or other deeply specialized systems roles.",
+      "context_recall": 0.7083,
+      "top1_score": -8.135,
+      "hit": true,
+      "retrieved_pages": [
+        17,
+        2,
+        16,
+        9,
+        6
+      ]
+    }
+  ]
+}

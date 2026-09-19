@@ -162,7 +162,7 @@ def run_retrieval_eval(eval_path: str, output_path: str, top_k: int = 5):
         expected = item["expected_answer"]
 
         query_emb = embed_query(question)
-        chunks = retrieve_top_k(query_emb, top_k=top_k)
+        chunks = retrieve_top_k(query_emb, top_k=top_k,query_text=question)
 
         if not chunks:
             print(f"  [{q_id}] No chunks retrieved")
@@ -276,7 +276,7 @@ def run_full_eval(eval_path: str, output_path: str, top_k: int = 5, limit: int =
         print(f"\n[{i+1}/{len(eval_set)}] {q_id}: {question[:60]}...")
 
         query_emb = embed_query(question)
-        chunks = retrieve_top_k(query_emb, top_k=top_k)
+        chunks = retrieve_top_k(query_emb, top_k=top_k,query_text=question)
 
         if not chunks:
             results.append({"id": q_id, "question": question,
