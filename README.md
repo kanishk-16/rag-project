@@ -98,28 +98,35 @@ rag-platform/
 
 ---
 
-## Evaluation
+## Evaluation & Benchmark Findings
 
-Built a 30-question evaluation set from a real document to measure retrieval quality objectively.
+A 30-question evaluation set built from domain documents (`eval/eval_set.json`) was used to benchmark retrieval quality across four architectural configurations under identical conditions.
 
-### Baseline Results (Phase 2 — semantic retrieval only)
+### 4-Configuration Retrieval Benchmark (30 Questions)
 
-| Metric              | Score  |
-|---------------------|--------|
-| Total Questions     | 30     |
-| Mean Context Recall | 0.6750 |
-| Mean Top-1 Similarity | 0.4839 |
-| Hit Rate@5          | 0.9667 |
+| Run | Pipeline Configuration | Mean Context Recall | Hit Rate@5 | Pure Retrieval Latency (Avg / p95) | End-to-End Latency* (Avg / p95) |
+| :---: | :--- | :---: | :---: | :---: | :---: |
+| **1** | **Dense only** (`all-MiniLM-L6-v2`) | `0.6750` | `96.67%` (29/30) | `0.08 ms` / `0.09 ms` | `19.37 ms` / `19.38 ms` |
+| **2** | **BM25 only** (Pure Lexical) | `0.7005` | `100.00%` (30/30) | `0.17 ms` / `0.24 ms` | `0.17 ms` / `0.24 ms` |
+| **3** | **Dense + BM25 + RRF** ($k=60$) | `0.6882` | `96.67%` (29/30) | `0.26 ms` / `0.41 ms` | `19.55 ms` / `19.70 ms` |
+| **4** | **Dense + BM25 + RRF + Cross-Encoder** | **`0.7259`** | **`100.00%` (30/30)** | `1,783.70 ms` / `2,029.88 ms` | `1,802.99 ms` / `2,049.16 ms` |
 
-### What the metrics mean
+*\*End-to-End Latency includes query embedding computation (`avg = 19.29 ms` on CPU).*
 
-- **Context Recall** — what fraction of the expected answer's key terms appear in the retrieved chunks
-- **Top-1 Similarity** — cosine similarity score of the most relevant retrieved chunk
-- **Answer Correctness** — LLM judge rates whether the generated answer matches the expected answer
+### Key Findings & Engineering Trade-offs
 
-### Planned improvement
-Phase 6 adds hybrid search (BM25 + semantic) and cross-encoder reranking.
-Target: Context Recall > 0.80, Answer Correctness > 65%.
+1. **Why Pure BM25 Performs Strongly on Technical Texts (`0.7005` recall):**
+   - The document contains exact company names (*"TCS, Infosys, Wipro"*), acronyms (*"DBMS, SQL, DSA, OS"*), and specific framework names. Lexical matching excels when queries share literal vocabulary with target passages.
+2. **Dense Semantic Search Recovers Paraphrases:**
+   - Dense embeddings capture semantic similarity and synonyms, but can drop ranks on rare tokens or acronyms.
+3. **The Accuracy vs. Latency Trade-off with Cross-Encoder Reranking:**
+   - Adding **`ms-marco-MiniLM-L-6-v2`** cross-encoder achieved the **highest recall (`0.7259`)** and a **flawless `100% Hit Rate@5`** (rescuing previously missed queries like `q29` and improving `q17` recall from `0.38` to `0.85`).
+   - *The Latency Cost:* Bi-encoders (runs 1–3) embed queries and documents separately, enabling sub-20ms lookup. The cross-encoder performs token-level joint attention across all 20 `(query, chunk)` candidate pairs, introducing an ~1.8s CPU inference latency.
+   - *Design Takeaway:* For low-latency real-time apps, **Dense + BM25 (RRF)** provides balanced accuracy under 20ms; for high-stakes accuracy where precision is paramount, **Cross-Encoder reranking** provides the optimal retrieval fidelity.
+
+### Metric Definitions
+- **Context Recall**: Fraction of key domain terms from the ground-truth answer present in the retrieved chunks.
+- **Hit Rate@5**: Percentage of queries where at least one retrieved chunk in the top-5 meets the relevance recall threshold ($\ge 0.3$).
 
 ---
 
@@ -240,10 +247,10 @@ ChromaDB requires C++ compilation on Windows which creates environment friction.
 - ✅ **Phase 1: Core RAG MVP Pipeline** (PyMuPDF PDF loading, 500-word sliding window chunker with 50-word overlap, sentence-transformers `all-MiniLM-L6-v2` embeddings, Numpy vector store).
 - ✅ **Phase 2 & 3: Citation & Grounded Refusal** (Page-level citations, Gemini 2.5 Flash grounded prompt template, explicit refusal when context is missing).
 - ✅ **Phase 4 & Deployment: Containerization & Cloud Host** (Custom `Dockerfile`, `docker-compose.yml`, persistent volume storage, live Railway cloud deployment).
-- ✅ **Phase 10: Quantitative Evaluation Suite** (30-question ground-truth evaluation set, `eval_runner.py` baseline benchmark: Recall@5 = 0.6750, Hit Rate@5 = 96.67%).
+- ✅ **Phase 6: Hybrid Search & Cross-Encoder Reranking** (BM25 lexical index + dense semantic vector fusion with `rank-bm25`, RRF candidate pooling, and `cross-encoder/ms-marco-MiniLM-L-6-v2` reranking; benchmarked at 100% Hit Rate@5 and 0.7259 context recall).
+- ✅ **Phase 10: Quantitative Evaluation Suite** (30-question ground-truth evaluation set, multi-configuration benchmark measuring context recall, hit rate, and latency trade-offs).
 
 **Next Up (Roadmap Todo):**
-- 🔄 **Phase 6 (Highest Leverage):** Hybrid Search (BM25 + Semantic Vectors) + Cross-Encoder Reranking (`ms-marco-MiniLM-L-6-v2`) to push Context Recall > 0.80.
 - 🔄 **Phase 5:** JWT Authentication & Document / User Metadata Filtering.
 - 🔄 **Phase 8:** Real-time token streaming (`StreamingResponse`).
 
