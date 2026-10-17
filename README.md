@@ -77,9 +77,10 @@ Client (Authorized via JWT Bearer Token)
 | LLM | Google Gemini 2.5 Flash |
 | Config | Pydantic Settings (`SettingsConfigDict`) + `python-dotenv` |
 | Testing | `pytest` + `httpx` (TestClient) |
-| Deployment | Docker + Docker Compose (Live on Railway) |
+| Deployment | Docker + Docker Compose (Local & Production Ready) |
 
-**🚀 Live Demo:** [https://rag-project-production-413e.up.railway.app/docs](https://rag-project-production-413e.up.railway.app/docs)
+**📖 Interactive API Documentation:** `http://localhost:8000/docs` (Swagger UI)
+
 
 ---
 
@@ -339,7 +340,7 @@ Writes to the disk-backed vector store utilize `threading.Lock()` and atomic fil
 - ✅ **Phase 5: Authentication & Multi-Tenancy** (SQLite + SQLAlchemy, bcrypt hashing, JWT Bearer tokens, user-isolated document storage and retrieval).
 - ✅ **Phase 6: Hybrid Search & Cross-Encoder Reranking** (BM25 lexical index + dense semantic vector fusion, cross-encoder reranking, 100% Hit Rate@5 benchmark).
 - ✅ **Phase 10: Evaluation Suite** (30-question ground-truth evaluation set, multi-configuration benchmark measuring context recall, hit rate, and latency trade-offs).
-- ✅ **Deployment** (Containerized with Docker & Docker Compose, deployed live on Railway).
+- ✅ **Deployment** (Containerized with Docker & Docker Compose, pre-configured for local or cloud deployment).
 
 **Next Up:**
 - 🔄 **Phase 8:** Real-time token streaming (`StreamingResponse` with Gemini streaming API).

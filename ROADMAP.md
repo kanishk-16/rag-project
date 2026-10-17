@@ -7,7 +7,7 @@
 
 ## Current Status
 
-**Live Demo:** https://rag-project-production-413e.up.railway.app/docs
+**API Documentation:** `http://localhost:8000/docs` (Docker & Uvicorn)
 **GitHub:** https://github.com/kanishk-16/rag-project
 
 ### Baseline Eval Numbers (semantic retrieval only)
@@ -64,8 +64,9 @@ Target after Phase 6: Context Recall > 0.80, Hit Rate@5 > 0.98
 
 ### ✅ Deployment
 - `docker/Dockerfile` + `docker-compose.yml` with volume mounts
-- Live on Railway — public HTTPS URL
+- Containerized and ready for local execution or cloud deployment
 - `.env.example` for clean local setup
+
 
 ---
 
