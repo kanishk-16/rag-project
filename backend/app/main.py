@@ -1,15 +1,25 @@
 from fastapi import FastAPI
-from app.api.routes import router
+from app.db.session import engine, Base
+from app.models.user import User  # Ensures user model registered with metadata
+from app.api.routes import router as rag_router
+from app.api.auth import router as auth_router
+
+# Initialize database tables
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="RAG Platform",
-    description="Enterprise RAG Platform — Phase 1 MVP",
-    version="0.1.0",
-    docs_url="/docs",      # Swagger UI at http://localhost:8000/docs
-    redoc_url="/redoc",    # ReDoc UI at http://localhost:8000/redoc
+    description="Enterprise RAG Platform with Hybrid Search, Cross-Encoder Reranking, and Multi-Tenancy",
+    version="0.5.0",
+    docs_url="/docs",
+    redoc_url="/redoc",
 )
 
-app.include_router(router, prefix="/api/v1")
+# Authentication endpoints
+app.include_router(auth_router, prefix="/api/v1/auth", tags=["Authentication"])
+
+# Core RAG endpoints
+app.include_router(rag_router, prefix="/api/v1", tags=["RAG"])
 
 
 if __name__ == "__main__":

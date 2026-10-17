@@ -39,12 +39,28 @@ Target after Phase 6: Context Recall > 0.80, Hit Rate@5 > 0.98
 - Explicit refusal behavior: "I couldn't find the answer in the provided documents"
 - No markdown formatting in responses
 
+### ✅ Phase 6 — Hybrid Search + Reranking
+- BM25 keyword search (`rank-bm25`) + Dense cosine similarity (`all-MiniLM-L6-v2`)
+- Min-max score normalization + weighted candidate pooling (top 20)
+- Cross-encoder reranker (`ms-marco-MiniLM-L-6-v2`) to top 5
+- Benchmark results:
+  - **Context Recall:** `0.6750` → **`0.7259`** (+7.5% relative gain)
+  - **Hit Rate@5:** `96.67%` (29/30) → **`100.00%`** (30/30)
+- Interview takeaway: *"Hybrid search + Cross-Encoder reranking rescued rare acronyms and technical names, achieving 100% Hit Rate@5 across our 30-question evaluation suite."*
+
+### ✅ Phase 5 — Authentication & Multi-Tenancy
+- SQLite + SQLAlchemy user persistence with bcrypt password hashing
+- JWT-based authentication (`POST /api/v1/auth/register`, `POST /api/v1/auth/login`, `GET /api/v1/auth/me`)
+- Protected `/api/v1/upload` and `/api/v1/query` routes via `Depends(get_current_user)`
+- Strict multi-tenant isolation: document chunks indexed by `user_id`, vector store retrieval strictly scoped to the authenticated user's documents
+
 ### ✅ Phase 10 — Evaluation Suite
 - 30-question ground-truth eval set from a real document (reviewed manually)
 - `eval_runner.py` with two modes:
   - `--mode retrieval` — zero API calls, runs all 30 questions instantly
   - `--mode full` — LLM judge with retry logic for rate limits
 - Baseline results captured in `eval/results/baseline.json`
+- 4-configuration benchmark in `benchmark_4_configs.py` and `eval/results/pipeline_comparison_4_configs.json`
 
 ### ✅ Deployment
 - `docker/Dockerfile` + `docker-compose.yml` with volume mounts
@@ -55,26 +71,11 @@ Target after Phase 6: Context Recall > 0.80, Hit Rate@5 > 0.98
 
 ## In Progress
 
-### 🔄 Phase 6 — Hybrid Search + Reranking (highest leverage)
-**Why this matters:** Top-1 Similarity is only 0.48 — the right chunk is retrieved but not ranked first. Reranking directly fixes this.
+### 🔄 Phase 8 — Streaming Responses (Next Step)
+- FastAPI `StreamingResponse` for token-by-token output via Gemini stream API
+- High visual impact for live technical demos
+- Reduces time-to-first-token (TTFT) perception
 
-Plan:
-- Add BM25 keyword search alongside semantic search (`rank-bm25` library)
-- Retrieve top-20 candidates from hybrid scoring
-- Rerank to top-5 using cross-encoder (`ms-marco-MiniLM-L-6-v2`)
-- Re-run eval to get before/after number
-
-Target interview line: "Hybrid search + reranking improved Context Recall from 0.675 to X and Hit Rate from 96.7% to Y."
-
-### 🔄 Phase 5 — Authentication
-- JWT-based auth (register, login, protected routes)
-- Multi-user support — user ID attached to every document and chunk
-- Most student RAG projects skip this — cheap effort, high signal
-
-### 🔄 Phase 8 — Streaming (bonus, if time allows)
-- FastAPI `StreamingResponse` for token-by-token output
-- High visual impact for demos
-- Low implementation effort — a few hours at most
 
 ---
 

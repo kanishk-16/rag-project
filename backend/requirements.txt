@@ -23,3 +23,12 @@ python-dotenv==1.0.1
 
 # Hybrid Search
 rank-bm25==0.2.2
+
+# Testing
+pytest>=8.0.0
+httpx>=0.27.0
+
+# Authentication
+bcrypt>=4.0.0
+pyjwt>=2.8.0
+sqlalchemy>=2.0.0

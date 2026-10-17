@@ -14,3 +14,10 @@ __pycache__/
 *.pyc
 venv/
 .pytest_cache/
+
+# Databases & local state
+*.db
+*.sqlite
+*.sqlite3
+*.tmp
+

@@ -11,7 +11,8 @@ def test_basic_chunking():
     text = " ".join([f"word{i}" for i in range(100)])
     chunks = chunk_text(text, chunk_size=20, overlap=5)
     assert len(chunks) > 1
-    assert all(len(c.strip()) > 0 for c in chunks)
+    assert all(isinstance(c, dict) and len(c["text"].strip()) > 0 for c in chunks)
+    assert all("page_num" in c for c in chunks)
 
 
 def test_overlap_exists():
@@ -20,8 +21,8 @@ def test_overlap_exists():
     chunks = chunk_text(text, chunk_size=10, overlap=3)
 
     # Last 3 words of chunk 0 should appear at the start of chunk 1
-    tail_words = chunks[0].split()[-3:]
-    head_words = chunks[1].split()[:3]
+    tail_words = chunks[0]["text"].split()[-3:]
+    head_words = chunks[1]["text"].split()[:3]
     assert tail_words == head_words
 
 
@@ -30,10 +31,24 @@ def test_short_text_single_chunk():
     text = "This is a short sentence."
     chunks = chunk_text(text, chunk_size=500, overlap=50)
     assert len(chunks) == 1
+    assert chunks[0]["text"] == text
+    assert chunks[0]["page_num"] == 1
 
 
 def test_no_empty_chunks():
     """No chunk should be empty or whitespace-only."""
     text = " ".join(["word"] * 200)
     chunks = chunk_text(text, chunk_size=30, overlap=10)
-    assert all(c.strip() for c in chunks)
+    assert all(c["text"].strip() for c in chunks)
+
+
+def test_multi_page_chunking():
+    """Multi-page inputs should preserve respective page numbers."""
+    pages = [
+        {"page_num": 1, "text": "Page one text content"},
+        {"page_num": 2, "text": "Page two text content"},
+    ]
+    chunks = chunk_text(pages, chunk_size=10, overlap=2)
+    assert len(chunks) == 2
+    assert chunks[0]["page_num"] == 1
+    assert chunks[1]["page_num"] == 2
